@@ -25,6 +25,29 @@
 <p><strong>Frontend:</strong> Angular</p>
 <p><strong>Real-Time Messaging:</strong> Firebase</p>
 
+## 📸 Project Screenshots
+
+### Register User Page
+![Matches Page](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/register-user.png)
+
+### Home/Matches Page
+![Matches Page](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/matches-page.png)
+
+### Profile Update Page
+![Profile Update](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/profile-update.png)
+
+### User Details Page
+![User Details Page](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/user-details.png)
+
+### Live message With User
+![Message Tab](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/message-tab.png)
+
+### Messages Page
+![Active Users](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/messages.png)
+
+### Gender Filter Page
+![Filter by Gender](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/gender-filter.png)
+
 <h2>Installation and Setup</h2>
 
 <h3>Prerequisites</h3>
