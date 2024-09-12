@@ -7,6 +7,8 @@
     <img src="https://img.shields.io/badge/Firebase-%23039BE5.svg?style=for-the-badge&logo=firebase&logoColor=white" alt="Firebase Badge" />
 </p>
 
+<h3>Live - <a href="https://matchmate-dating-app-exedcrd0g4b9afca.southeastasia-01.azurewebsites.net/">matchmate-dating-app</a></h3>
+
 <h2>Project Overview</h2>
 <p><strong>MatchMate</strong> is a full-featured dating web application that enables users to create accounts, search for potential matches, and exchange messages in real-time. This project was developed using ASP.NET for the backend, Angular for the frontend, and Firebase for handling live messaging.</p>
 
