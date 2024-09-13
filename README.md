@@ -31,21 +31,27 @@
 
 ### Register User Page
 ![Matches Page](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/register-user.png)
+![Matches Page](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/register-user-2.png)
+
+### Profile Update Page
+![Profile Update](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/profile-update.png)
+![Profile Update](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/profile-update-2.png)
 
 ### Home/Matches Page
 ![Matches Page](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/matches-page.png)
 
-### Profile Update Page
-![Profile Update](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/profile-update.png)
-
 ### User Details Page
 ![User Details Page](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/user-details.png)
+![User Details Page](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/user-photo-tab.png)
 
 ### Live message With User
 ![Message Tab](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/message-tab.png)
 
 ### Messages Page
 ![Active Users](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/messages.png)
+
+### Likes Page
+![Filter by Gender](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/likes-page.png)
 
 ### Gender Filter Page
 ![Filter by Gender](https://github.com/RamaniRavi/MatchMate_WebApp/blob/main/Demo/gender-filter.png)
