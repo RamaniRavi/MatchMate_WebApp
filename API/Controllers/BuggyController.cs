@@ -1,58 +1,41 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using API.Controllers;
 using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API;
+
+public class BuggyController(DataContext context) : BaseApiController
 {
-    public class BuggyController : BaseApiController
+    [Authorize]
+    [HttpGet("auth")]
+    public ActionResult<string> GetAuth()
     {
-        private readonly DataContext _context;
+        return "secret text";
+    }
 
-        public BuggyController(DataContext context)
-        {
-            _context = context;
-        }
+    [HttpGet("not-found")]
+    public ActionResult<AppUser> GetNotFound()
+    {
+        var thing = context.Users.Find(-1);
 
-        [Authorize]
-        [HttpGet("auth")]
-        public ActionResult<string> GetSecret(){
-            return "secret text";
-        }
+        if (thing == null) return NotFound();
 
-        [HttpGet("not-found")]
-        public ActionResult<AppUser> GetNotFound(){
-            var thing = _context.Users.Find(-1);
+        return thing;
+    }
 
-            if(thing==null) return NotFound(-1);
-            return Ok(thing);       
-        }
+    [HttpGet("server-error")]
+    public ActionResult<AppUser> GetServerError()
+    {
+        var thing = context.Users.Find(-1) ?? throw new Exception("A bad thing has happened");
 
-        [HttpGet("server-error")]
-        public ActionResult<string> GetSereverError(){
-            
-            var thing = _context.Users.Find(-1);
-            var thingToReturn = thing.ToString();
-            return thingToReturn;
-            // try{
-            //     var thing = _context.Users.Find(-1);
-            //     var thingToReturn = thing.ToString();
-            //     return thingToReturn;
-            // }
-            // catch(Exception ex){
-            //     return StatusCode(500,"computer say no!");
-            // }
-            
-        }
+        return thing;
+    }
 
-        [HttpGet("bad-request")]
-        public ActionResult<string> GetBedRequest(){
-            // return BadRequest("This was not a good request.");
-            return BadRequest();
-        }
+    [HttpGet("bad-request")]
+    public ActionResult<string> GetBadRequest()
+    {
+        return BadRequest("This was not a good request");
     }
 }

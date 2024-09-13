@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿namespace API;
 
-namespace API.DTOs
+public class CreateMessageDto
 {
-    public class CreateMessageDto
-    {
-        public string RecipientUsername { get; set; }
-        public string Content { get; set; }
-    }
+    public required string RecipientUsername { get; set; }
+    public required string Content { get; set; }
 }

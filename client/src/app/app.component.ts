@@ -1,38 +1,30 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { User } from './_models/user';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavComponent } from "./nav/nav.component";
 import { AccountService } from './_services/account.service';
-import { PresenceService } from './_services/presence.service';
+import { HomeComponent } from "./home/home.component";
+import { NgxSpinnerComponent } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css',
+    imports: [RouterOutlet, NavComponent, HomeComponent, NgxSpinnerComponent]
 })
-export class AppComponent implements OnInit{
-  title = 'The Dating App';
-  users: any;
-  
-  constructor(private accountServices: AccountService, private presence: PresenceService) {}
+export class AppComponent implements OnInit {
+  private accountService = inject(AccountService);
 
-  ngOnInit(){
-    // this.getUsers();
+  ngOnInit(): void {
     this.setCurrentUser();
   }
 
-  setCurrentUser(){
-    const user: User = JSON.parse(localStorage.getItem('user'));
-    if(user){
-      this.accountServices.setCurrentUser(user);
-      this.presence.CreateHubConnection(user);
-    }
+  setCurrentUser() {
+    const userString = localStorage.getItem('user');
+    if (!userString) return;
+    const user = JSON.parse(userString);
+    this.accountService.setCurrentUser(user);
   }
-  
-  // getUsers(){
-  //   this.http.get('https://localhost:5001/api/users').subscribe(response => {
-  //     this.users = response;
-  //   }, error => {
-  //     console.log(error);
-  //   })
-  // }
+
+
 }

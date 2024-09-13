@@ -1,30 +1,38 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Message } from 'src/app/_models/message';
-import { MessageService } from 'src/app/_services/message.service';
+import { AfterViewChecked, Component, ViewChild, inject, input } from '@angular/core';
+import { MessageService } from '../../_services/message.service';
+import { TimeagoModule } from 'ngx-timeago';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-member-messages',
+  standalone: true,
+  imports: [TimeagoModule, FormsModule],
   templateUrl: './member-messages.component.html',
-  styleUrls: ['./member-messages.component.css']
+  styleUrl: './member-messages.component.css'
 })
-export class MemberMessagesComponent implements OnInit {
-  @ViewChild('messageForm') messageForm: NgForm;
-  @Input() username: string;
-  @Input() messages: Message[];
-  messageContent: string;
-
-  constructor(public messageService: MessageService) { }
-
-  ngOnInit(): void {
-    
+export class MemberMessagesComponent implements AfterViewChecked {
+  @ViewChild('messageForm') messageForm?: NgForm;
+  @ViewChild('scrollMe') scrollContainer?: any;
+  messageService = inject(MessageService);
+  username = input.required<string>();
+  messageContent = '';
+  loading = false;
+  
+  sendMessage() {
+    this.loading = true;
+    this.messageService.sendMessage(this.username(), this.messageContent).then(() => {
+      this.messageForm?.reset();
+      this.scrollToBottom();
+    }).finally(() => this.loading = false);
   }
 
-  sendMessage(){
-    this.messageService.sendMessage(this.username, this.messageContent).then(() => {
-      this.messageForm.reset();
-    })
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
   }
- 
+
+  private scrollToBottom() {
+    if (this.scrollContainer) {
+      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+    }
+  }
 }

@@ -1,35 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { Member } from '../_models/member';
-import { Pagination } from '../_models/pagination';
-import { MembersService } from '../_services/members.service';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { LikesService } from '../_services/likes.service';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { FormsModule } from '@angular/forms';
+import { MemberCardComponent } from "../members/member-card/member-card.component";
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @Component({
-  selector: 'app-lists',
-  templateUrl: './lists.component.html',
-  styleUrls: ['./lists.component.css']
+    selector: 'app-lists',
+    standalone: true,
+    templateUrl: './lists.component.html',
+    styleUrl: './lists.component.css',
+    imports: [ButtonsModule, FormsModule, MemberCardComponent, PaginationModule]
 })
-export class ListsComponent implements OnInit {
-  members: Partial<Member[]>;
+export class ListsComponent implements OnInit, OnDestroy {
+  likesService = inject(LikesService);
   predicate = 'liked';
   pageNumber = 1;
   pageSize = 5;
-  pagination: Pagination;
-
-  constructor(private memberService: MembersService) { }
 
   ngOnInit(): void {
-    this.loadLikes();
+    this.loadLikes(); 
   }
 
-  loadLikes(){
-    this.memberService.getLikes(this.predicate, this.pageNumber, this.pageSize).subscribe(response =>{
-      this.members = response.result;
-      this.pagination = response.pagination;
-    })
+  getTitle() {
+    switch (this.predicate) {
+      case 'liked': return 'Members you like';
+      case 'likedBy': return 'Members who like you';
+      default: return 'Mutual'
+    }
   }
 
-  pageChanged(event: any){
-    this.pageNumber = event.page;
-    this.loadLikes();
+  loadLikes() {
+    this.likesService.getLikes(this.predicate, this.pageNumber, this.pageSize);
   }
+
+  pageChanged(event: any) {
+    if (this.pageNumber !== event.page) {
+      this.pageNumber = event.page;
+      this.loadLikes();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.likesService.paginatedResult.set(null);
+  }
+
 }

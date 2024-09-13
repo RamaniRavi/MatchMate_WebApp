@@ -1,27 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Extensions;
+﻿using API.Extensions;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace API.Helpers
+namespace API;
+
+public class LogUserActivity : IAsyncActionFilter
 {
-    public class LogUserActivity : IAsyncActionFilter
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        {
-            var resultContex = await next();
+        var resultContext = await next();
 
-            if(!resultContex.HttpContext.User.Identity.IsAuthenticated) return;
+        if (context.HttpContext.User.Identity?.IsAuthenticated != true) return;
 
-            var userId = resultContex.HttpContext.User.GetUserId();
-            var uow = resultContex.HttpContext.RequestServices.GetService<IUnitOfWork>();
-            var user = await uow.UserRepository.GetUserByIdAsync(userId);
-            // LastActivity == LastActive
-            user.LastActivity = DateTime.UtcNow;
-            await uow.Complete();
-        }
+        var userId = resultContext.HttpContext.User.GetUserId();
+
+        var unitOfWork = resultContext.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+        var user = await unitOfWork.UserRepository.GetUserByIdAsync(userId);
+        if (user == null) return;
+        user.LastActive = DateTime.UtcNow;
+        await unitOfWork.Complete();
     }
 }

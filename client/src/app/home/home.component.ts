@@ -1,32 +1,21 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { RegisterComponent } from "../register/register.component";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    standalone: true,
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css',
+    imports: [RegisterComponent]
 })
-export class HomeComponent implements OnInit {
-
-  // @Input() usersFromHomeComponent: any;
+export class HomeComponent {
   registerMode = false;
-  // users: any;
 
-  constructor() { }
-
-  ngOnInit(): void {
-    // this.getUsers();
+  registerToggle() {
+    this.registerMode = !this.registerMode
   }
 
-  registerToggel(){
-    this.registerMode = !this.registerMode;
-  }
-  
-  // getUsers(){
-  //   this.http.get('https://localhost:5001/api/users').subscribe(x => this.users = x);
-  // }
-
-  cancelRegisterMode(event: boolean){
+  cancelRegisterMode(event: boolean) {
     this.registerMode = event;
   }
 }

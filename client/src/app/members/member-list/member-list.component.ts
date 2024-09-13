@@ -1,48 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, take } from 'rxjs';
-import { Member } from 'src/app/_models/member';
-import { Pagination } from 'src/app/_models/pagination';
-import { User } from 'src/app/_models/user';
-import { UserParams } from 'src/app/_models/userParams';
-import { AccountService } from 'src/app/_services/account.service';
-import { MembersService } from 'src/app/_services/members.service';
+import { Component, OnInit, inject } from '@angular/core';
+import { MembersService } from '../../_services/members.service';
+import { MemberCardComponent } from "../member-card/member-card.component";
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { AccountService } from '../../_services/account.service';
+import { UserParams } from '../../_models/userParams';
+import { FormsModule } from '@angular/forms';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @Component({
-  selector: 'app-member-list',
-  templateUrl: './member-list.component.html',
-  styleUrls: ['./member-list.component.css']
+    selector: 'app-member-list',
+    standalone: true,
+    templateUrl: './member-list.component.html',
+    styleUrl: './member-list.component.css',
+    imports: [MemberCardComponent, PaginationModule, FormsModule, ButtonsModule]
 })
 export class MemberListComponent implements OnInit {
-  members: Member[];
-  pagination: Pagination;
-  userParams: UserParams;
-  user: User;
-  genderList = [{value: 'male', display: 'Males'},{value: 'female', display: 'Females'}];
-
-  constructor(private memberService: MembersService, private accountService: AccountService) {
-    this.userParams = this.memberService.getUserParams();
-  }
+  memberService = inject(MembersService);
+  genderList = [{value: 'male', display: 'Males'}, {value: 'female', display: 'Females'}]
 
   ngOnInit(): void {
+    if (!this.memberService.paginatedResult()) this.loadMembers();
+  }
+
+  loadMembers() {
+    this.memberService.getMembers();
+  }
+
+  resetFilters() {
+    this.memberService.resetUserParams();
     this.loadMembers();
   }
 
-  loadMembers(){
-    this.memberService.setUserParams(this.userParams);
-    this.memberService.getMembers(this.userParams).subscribe(response => {
-      this.members = response.result;
-      this.pagination = response.pagination;
-    })
-  }
-
-  resetFilters(){
-    this.userParams = this.memberService.recentUserParams();
-    this.loadMembers();
-  }
-
-  pageChanged(event: any){
-    this.userParams.pageNumber = event.page;
-    this.memberService.setUserParams(this.userParams);
-    this.loadMembers();
+  pageChanged(event: any) {
+    if (this.memberService.userParams().pageNumber != event.page) {
+      this.memberService.userParams().pageNumber = event.page;
+      this.loadMembers();
+    }
   }
 }
